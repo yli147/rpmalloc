@@ -185,7 +185,12 @@ madvise(caddr_t, size_t, int);
 #define LARGE_PAGE_SIZE (1 << LARGE_PAGE_SIZE_SHIFT)
 #define LARGE_PAGE_MASK (~((uintptr_t)LARGE_PAGE_SIZE - 1))
 
+#if defined(__riscv)
+// Keep aligned span mappings small enough for a heavily reserved guest address space.
+#define SPAN_SIZE (128 * 1024 * 1024)
+#else
 #define SPAN_SIZE (256 * 1024 * 1024)
+#endif
 #define SPAN_MASK (~((uintptr_t)(SPAN_SIZE - 1)))
 
 ////////////
